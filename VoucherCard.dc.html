@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="display:flex; align-items:stretch; border-radius:20px; background:#FFF3EC; overflow:hidden; font-family:'Be Vietnam Pro', system-ui; color:#1A1712; min-height:132px;">
+  <div style="width:96px; background:#FF5A1F; color:#fff; display:flex; align-items:center; justify-content:center; border-right:3px dotted #fff; flex-shrink:0;"><span style="font:800 26px/1 'Bricolage Grotesque'; letter-spacing:-.02em;">{{ v.tag }}</span></div>
+  <div style="flex:1; padding:14px 16px; display:flex; flex-direction:column; gap:8px; min-width:0;">
+    <div style="display:flex; align-items:center; justify-content:space-between; gap:8px;"><span style="font:700 12px/1 'Be Vietnam Pro'; color:#B93A0F;">{{ v.san }}</span><span onClick="{{ v.save }}" style="font:800 13px/1 'Be Vietnam Pro'; color:#fff; background:#1A1712; padding:8px 14px; border-radius:99px; cursor:pointer; white-space:nowrap;">{{ v.cta }}</span></div>
+    <span style="font:800 15px/1.25 'Be Vietnam Pro';">{{ v.title }}</span>
+    <span style="font:400 12px/1.3 'Be Vietnam Pro'; color:#6E675D;">{{ v.sub }}</span>
+    <div style="display:flex; align-items:center; gap:10px;"><div style="flex:1; height:8px; border-radius:99px; background:#FFCDB8; overflow:hidden;"><div style="width:{{ v.pctCss }}; height:100%; background:#FF5A1F; border-radius:99px;"></div></div><span style="font:700 12px/1 'Be Vietnam Pro'; color:#B93A0F; white-space:nowrap;">{{ v.left }}</span></div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:420,&quot;height&quot;:140},&quot;v&quot;:{&quot;editor&quot;:null,&quot;default&quot;:{&quot;tag&quot;:&quot;0₫&quot;,&quot;san&quot;:&quot;Shopee&quot;,&quot;title&quot;:&quot;Voucher 0₫ — giảm 50K&quot;,&quot;sub&quot;:&quot;Đơn từ 0₫ · mở 12:00 hôm nay&quot;,&quot;pctCss&quot;:&quot;38%&quot;,&quot;left&quot;:&quot;Còn 38%&quot;,&quot;cta&quot;:&quot;Lưu ngay&quot;},&quot;tsType&quot;:&quot;{tag:string; san:string; title:string; sub:string; pctCss:string; left:string; cta:string; save?:()=&gt;void}&quot;}}"></script>
+</body>
+</html>
