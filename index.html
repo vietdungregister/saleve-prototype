@@ -152,7 +152,7 @@ window.__resources = {
           </div>
           <div style="display:grid; grid-template-columns:var(--cols2); border-radius:24px; background:#fff; border:1px solid #F0E6DC; overflow:hidden;">
             <div style="padding:24px; display:flex; gap:16px; border-right:1px solid #F0E6DC;">
-              <img src="img/tile-1.png" alt="" style="width:120px; height:120px; border-radius:14px; object-fit:cover; flex-shrink:0;">
+              <img src="img/tile-1.jpg" alt="" style="width:120px; height:120px; border-radius:14px; object-fit:cover; flex-shrink:0;">
               <div style="display:flex; flex-direction:column; gap:8px; min-width:0;"><span style="font:600 11px/1 'Be Vietnam Pro'; color:#8B8378; letter-spacing:.06em; text-transform:uppercase;">Đã nhận diện</span><span style="font:600 15px/1.35 'Be Vietnam Pro';">Máy hút bụi cầm tay không dây mini 2 trong 1, pin 2000mAh</span><span style="font:800 24px/1 'Bricolage Grotesque'; color:#FF5A1F;">259.000₫</span><span style="font:400 12px/1 'Be Vietnam Pro'; color:#6E675D;">HomeTech Official · Điện gia dụng</span></div>
             </div>
             <div style="padding:24px; background:#FFF3EC; display:flex; flex-direction:column; gap:16px;">
@@ -496,14 +496,14 @@ class Component extends DCLogic {
     const cur = pages.find(x => x.id === s.page) || pages[0];
     const is = {}; pages.forEach(x => is[x.id] = s.shot || x.id === s.page);
     const deals = [
-      ['home-d1','img/tile-1.png','Shopee','Máy hút bụi cầm tay không dây mini 2 trong 1','259.000₫','399.000₫','-35%','Đã bán 2,3k','17.600₫'],
-      ['home-d2','img/tile-6.png','TikTok Shop','Serum B5 phục hồi da 30ml chính hãng','189.000₫','250.000₫','-24%','Đã bán 5,1k','28.300₫'],
-      ['home-d3','img/tile-5.png','Shopee','Tai nghe bluetooth chống ồn, pin 30 giờ','429.000₫','690.000₫','-38%','Đã bán 1,8k','21.400₫'],
-      ['home-d4','img/tile-3.png','Shopee','Bộ nồi inox 3 đáy 5 món dùng bếp từ','619.000₫','890.000₫','-30%','Đã bán 912','37.100₫'],
-      ['home-d5','img/tile-4.png','Shopee','Áo thun cotton unisex form rộng basic','99.000₫','159.000₫','-38%','Đã bán 12k','9.900₫'],
-      ['l6','img/tile-2.png','Shopee','Nồi chiên không dầu 5.5L màn cảm ứng','890.000₫','1.290.000₫','-31%','Đã bán 3,4k','53.400₫'],
-      ['l7','img/tile-7.png','TikTok Shop','Ghế công thái học lưng lưới, tựa đầu','1.450.000₫','2.100.000₫','-31%','Đã bán 640','72.500₫'],
-      ['l8','img/tile-8.png','Shopee','Kem chống nắng SPF50+ 50ml không nhờn','145.000₫','210.000₫','-31%','Đã bán 8,2k','21.700₫'],
+      ['home-d1','img/tile-1.jpg','Shopee','Máy hút bụi cầm tay không dây mini 2 trong 1','259.000₫','399.000₫','-35%','Đã bán 2,3k','17.600₫'],
+      ['home-d2','img/tile-6.jpg','TikTok Shop','Serum B5 phục hồi da 30ml chính hãng','189.000₫','250.000₫','-24%','Đã bán 5,1k','28.300₫'],
+      ['home-d3','img/tile-5.jpg','Shopee','Tai nghe bluetooth chống ồn, pin 30 giờ','429.000₫','690.000₫','-38%','Đã bán 1,8k','21.400₫'],
+      ['home-d4','img/tile-3.jpg','Shopee','Bộ nồi inox 3 đáy 5 món dùng bếp từ','619.000₫','890.000₫','-30%','Đã bán 912','37.100₫'],
+      ['home-d5','img/tile-4.jpg','Shopee','Áo thun cotton unisex form rộng basic','99.000₫','159.000₫','-38%','Đã bán 12k','9.900₫'],
+      ['l6','img/tile-2.jpg','Shopee','Nồi chiên không dầu 5.5L màn cảm ứng','890.000₫','1.290.000₫','-31%','Đã bán 3,4k','53.400₫'],
+      ['l7','img/tile-7.jpg','TikTok Shop','Ghế công thái học lưng lưới, tựa đầu','1.450.000₫','2.100.000₫','-31%','Đã bán 640','72.500₫'],
+      ['l8','img/tile-8.jpg','Shopee','Kem chống nắng SPF50+ 50ml không nhờn','145.000₫','210.000₫','-31%','Đã bán 8,2k','21.700₫'],
     ].map(([img, src, san, name, price, old, off, sold, cash], i) => ({ img, src, san, name, price, old, off, sold, cash, open: () => this.set({ page: 'dealDetail', selDeal: i }) }));
     const sorts = ['Hoàn cao nhất', 'Bán chạy', 'Giá thấp'].map((label, i) => ({ label, bg: s.sort === i ? '#1A1712' : '#FFF3EC', fg: s.sort === i ? '#fff' : '#1A1712', pick: () => this.setState({ sort: i }) }));
     const num = v => parseInt(String(v).replace(/[^0-9]/g, ''), 10) || 0;
@@ -519,10 +519,10 @@ class Component extends DCLogic {
       ['-50K','TikTok Shop','Giảm 50K đơn từ 299K','Làm đẹp · HSD 15/09',55],['-8%','Shopee','Hoàn xu 8% tối đa 40K','Toàn sàn · mở 20:00',80],['0₫','Shopee','Voucher 0₫ — giảm 30K','Đơn từ 0₫ · mở 21:00',12],
     ].map(([tag, san, title, sub, pct], i) => ({ tag, san, title, sub, pctCss: pct + '%', left: 'Còn ' + pct + '%', cta: s.saved[i] ? 'Đã lưu ✓' : 'Lưu ngay', save: () => { this.setState({ saved: { ...s.saved, [i]: !s.saved[i] } }); this.toast(s.saved[i] ? 'Đã bỏ lưu voucher' : 'Đã lưu voucher — tự áp khi mua qua link'); } }));
     const posts = [
-      ['blog-1','img/blog-1.png','Sale 9.9','4 phút đọc · hôm nay','Lịch săn voucher 9.9: khung giờ nào mã nhiều nhất?','Tổng hợp các khung 0h, 9h, 12h, 21h và mã nên lưu trước từ tối hôm trước.'],
-      ['blog-2','img/blog-2.png','Voucher 0₫','3 phút đọc · 2 ngày trước','Cách canh voucher 0₫ không bị trượt trên điện thoại','Tắt tiết kiệm pin, mở sẵn trang voucher, bật nhắc trên salevề trước 5 phút.'],
-      ['blog-3','img/blog-3.png','Hoàn tiền','5 phút đọc · tuần này','Tách đơn thế nào để vừa dùng mã shop vừa được hoàn X2','Ví dụ thật với đơn 890K: tách 2 đơn lợi hơn 31.000₫ so với gộp.'],
-      ['blog-4','img/tile-9.png','Lịch sale','2 phút đọc · tuần trước','Lịch sale tháng 9–10: 9.9, 15.9, 10.10 và ngày lương','Ngày nào X2 hoàn tiền, ngày nào chỉ freeship — đánh dấu sẵn lịch.'],
+      ['blog-1','img/blog-1.jpg','Sale 9.9','4 phút đọc · hôm nay','Lịch săn voucher 9.9: khung giờ nào mã nhiều nhất?','Tổng hợp các khung 0h, 9h, 12h, 21h và mã nên lưu trước từ tối hôm trước.'],
+      ['blog-2','img/blog-2.jpg','Voucher 0₫','3 phút đọc · 2 ngày trước','Cách canh voucher 0₫ không bị trượt trên điện thoại','Tắt tiết kiệm pin, mở sẵn trang voucher, bật nhắc trên salevề trước 5 phút.'],
+      ['blog-3','img/blog-3.jpg','Hoàn tiền','5 phút đọc · tuần này','Tách đơn thế nào để vừa dùng mã shop vừa được hoàn X2','Ví dụ thật với đơn 890K: tách 2 đơn lợi hơn 31.000₫ so với gộp.'],
+      ['blog-4','img/tile-9.jpg','Lịch sale','2 phút đọc · tuần trước','Lịch sale tháng 9–10: 9.9, 15.9, 10.10 và ngày lương','Ngày nào X2 hoàn tiền, ngày nào chỉ freeship — đánh dấu sẵn lịch.'],
     ].map(([img, src, tag, meta, title, desc], i) => ({ img, src, tag, meta, title, desc, open: () => this.set({ page: 'tipDetail', selPost: i }) }));
     const selPost = posts[s.selPost];
     const body = [
@@ -547,12 +547,12 @@ class Component extends DCLogic {
     ];
     const ST = { pend: { status: 'Chờ duyệt', bg: '#FFE8DE', fg: '#B93A0F', amtColor: '#B93A0F' }, done: { status: 'Đã về ví', bg: '#DCF5EA', fg: '#0B6E4D', amtColor: '#0B6E4D' }, rej: { status: 'Bị từ chối · đơn hủy', bg: '#F3EEE4', fg: '#6E675D', amtColor: '#8B8378' } };
     const orders = [
-      ['Máy hút bụi cầm tay không dây mini','img/tile-1.png','Shopee','2409A7K1','07/09/2026','pend','Dự kiến 12/10','+17.600₫','259.000₫'],
-      ['Serum B5 phục hồi da 30ml','img/tile-6.png','TikTok Shop','TT58…0F2','05/09/2026','pend','Dự kiến 24/09','+28.300₫','189.000₫'],
-      ['Tai nghe bluetooth chống ồn','img/tile-5.png','Shopee','2408K5…','21/08/2026','done','Về ví 06/09','+21.400₫','429.000₫'],
-      ['Bộ nồi inox 3 đáy 5 món','img/tile-3.png','Shopee','2408Q2…','18/08/2026','done','Về ví 02/09','+37.100₫','619.000₫'],
-      ['Áo thun cotton unisex','img/tile-4.png','Shopee','2408M9…','12/08/2026','rej','Hủy 14/08','0₫','99.000₫'],
-      ['Kem chống nắng SPF50+','img/tile-8.png','Shopee','2407Z1…','30/07/2026','done','Về ví 20/08','+21.700₫','145.000₫'],
+      ['Máy hút bụi cầm tay không dây mini','img/tile-1.jpg','Shopee','2409A7K1','07/09/2026','pend','Dự kiến 12/10','+17.600₫','259.000₫'],
+      ['Serum B5 phục hồi da 30ml','img/tile-6.jpg','TikTok Shop','TT58…0F2','05/09/2026','pend','Dự kiến 24/09','+28.300₫','189.000₫'],
+      ['Tai nghe bluetooth chống ồn','img/tile-5.jpg','Shopee','2408K5…','21/08/2026','done','Về ví 06/09','+21.400₫','429.000₫'],
+      ['Bộ nồi inox 3 đáy 5 món','img/tile-3.jpg','Shopee','2408Q2…','18/08/2026','done','Về ví 02/09','+37.100₫','619.000₫'],
+      ['Áo thun cotton unisex','img/tile-4.jpg','Shopee','2408M9…','12/08/2026','rej','Hủy 14/08','0₫','99.000₫'],
+      ['Kem chống nắng SPF50+','img/tile-8.jpg','Shopee','2407Z1…','30/07/2026','done','Về ví 20/08','+21.700₫','145.000₫'],
     ].map(([name, src, san, code, date, st, etaLabel, amt, orderValue], i) => ({ name, src, san, code, date, etaLabel, amt, orderValue, ...ST[st], st, open: () => this.set({ page: 'orderDetail', selOrder: i }) }));
     const selOrder = orders[s.selOrder];
     const stageIdx = selOrder.st === 'done' ? 3 : selOrder.st === 'pend' ? 1 : 0;
