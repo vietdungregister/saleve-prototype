@@ -25,6 +25,16 @@ window.__resources = {
     a { color:#FF5A1F; text-decoration:none; } a:hover { color:#D9430C; }
     * { box-sizing:border-box; }
     img { display:block; }
+    /* ===== Chống tràn chữ — quy tắc HỆ THỐNG, không vá từng màn =====
+       Mặc định flex/grid item có min-width:auto nên KHÔNG co nhỏ hơn nội dung:
+       một tên sản phẩm dài sẽ đẩy phình cả khung chứa thay vì tự xuống dòng.
+       Đặt min-width:0 ở đây một lần, mọi màn hưởng chung. */
+    * { min-width: 0; }
+    /* KHÔNG đặt overflow-wrap toàn cục: nó bẻ cả số tiền và số đếm
+       ("21" thành "2"/"1"). Chuỗi dài không khoảng trắng dùng .brk khi cần. */
+    .brk { overflow-wrap: anywhere; }
+    /* Đi kèm min-width:0 ở trên: icon/badge/số đếm phải tự đặt flex-shrink:0
+       để không bị bóp méo, vì giờ mọi phần tử đều có thể co. */
   </style>
 </helmet>
 
@@ -46,7 +56,7 @@ window.__resources = {
 
   <sc-if value="{{ toastOn }}" hint-placeholder-val="{{ false }}"><div style="position:fixed; left:50%; bottom:28px; transform:translateX(-50%); z-index:50; padding:12px 18px; border-radius:99px; background:#1A1712; color:#FFF9F1; font:600 13px/1 'Be Vietnam Pro'; box-shadow:0 12px 30px rgba(0,0,0,.3); display:flex; align-items:center; gap:10px;"><span style="width:20px; height:20px; border-radius:99px; background:#0B8F63; display:grid; place-items:center;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round"><path d="m5 12 5 5L20 7"></path></svg></span>{{ toastMsg }}</div></sc-if>
   <!-- frame -->
-  <div style="width:{{ frameW }}; zoom:{{ zoom }}; border-radius:14px; overflow:hidden; box-shadow:0 24px 80px rgba(0,0,0,.28), 0 0 0 1px rgba(0,0,0,.1); background:#fff; --pad:{{ pad }}; --cols5:{{ cols5 }}; --cols4:{{ cols4 }}; --cols3:{{ cols3 }}; --cols2:{{ cols2 }}; --hero:{{ heroCols }}; --side:{{ sideCols }}; --wallet:{{ walletCols }}; --h1:{{ h1 }}; --h2:{{ h2 }}; --desk:{{ desk }}; --mob:{{ mob }}; --secpad:{{ secpad }}; --r:{{ radius }}; --shotline:{{ shotline }};">
+  <div style="width:{{ frameW }}; zoom:{{ zoom }}; border-radius:14px; overflow:hidden; box-shadow:0 24px 80px rgba(0,0,0,.28), 0 0 0 1px rgba(0,0,0,.1); background:#fff; --pad:{{ pad }}; --cols5:{{ cols5 }}; --cols4:{{ cols4 }}; --cols3:{{ cols3 }}; --cols2:{{ cols2 }}; --hero:{{ heroCols }}; --side:{{ sideCols }}; --wallet:{{ walletCols }}; --orders:{{ ordersCols }}; --wrapWide:{{ wrapWide }}; --wrapNarrow:{{ wrapNarrow }}; --wrapCard:{{ wrapCard }}; --h1:{{ h1 }}; --h2:{{ h2 }}; --desk:{{ desk }}; --mob:{{ mob }}; --secpad:{{ secpad }}; --r:{{ radius }}; --shotline:{{ shotline }};">
     <!-- browser bar -->
     <div style="height:40px; padding:0 14px; display:flex; align-items:center; gap:10px; background:#F3EEE4; border-bottom:1px solid #E8DFD0;">
       <div style="display:flex; gap:6px;"><span style="width:10px; height:10px; border-radius:99px; background:#FF5F57;"></span><span style="width:10px; height:10px; border-radius:99px; background:#FEBC2E;"></span><span style="width:10px; height:10px; border-radius:99px; background:#28C840;"></span></div>
@@ -142,7 +152,7 @@ window.__resources = {
 
       <!-- ===== CHECK (paste result) ===== -->
       <sc-if value="{{ is.check }}" hint-placeholder-val="{{ false }}"><div data-shot="check" style="border-bottom:var(--shotline);">
-        <div style="max-width:1040px; margin:0 auto; padding:var(--secpad) var(--pad); display:flex; flex-direction:column; gap:22px;">
+        <div style="max-width:var(--wrapWide); margin:0 auto; padding:var(--secpad) var(--pad); display:flex; flex-direction:column; gap:22px;">
           <div style="display:flex; flex-direction:column; gap:12px;">
             <h1 style="margin:0; font:800 var(--h2)/1.05 'Bricolage Grotesque'; letter-spacing:-.02em;">Kiểm tra hoàn tiền</h1>
             <div style="display:flex; gap:8px; flex-wrap:wrap;">
@@ -289,7 +299,7 @@ window.__resources = {
 
       <!-- ===== WITHDRAWALS ===== -->
       <sc-if value="{{ is.withdrawals }}" hint-placeholder-val="{{ false }}"><div data-shot="withdrawals" style="border-bottom:var(--shotline);">
-        <div style="max-width:960px; margin:0 auto; padding:var(--secpad) var(--pad); display:flex; flex-direction:column; gap:18px;">
+        <div style="max-width:var(--wrapWide); margin:0 auto; padding:var(--secpad) var(--pad); display:flex; flex-direction:column; gap:18px;">
           <div style="display:flex; gap:8px; font:500 13px/1 'Be Vietnam Pro'; color:#8B8378;"><span onClick="{{ go.wallet }}" style="cursor:pointer;">Ví</span>›<span style="color:#1A1712;">Lịch sử rút tiền</span></div>
           <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:12px; flex-wrap:wrap;"><h1 style="margin:0; font:800 var(--h2)/1 'Bricolage Grotesque'; letter-spacing:-.02em;">Lịch sử rút tiền</h1><span style="font:600 13px/1 'Be Vietnam Pro'; color:#6E675D;">Tổng đã rút <b style="color:#1A1712;">3.850.000₫</b> · 14 lần</span></div>
           <div style="padding:14px 18px; border-radius:16px; background:#DCF5EA; display:flex; align-items:center; gap:12px; flex-wrap:wrap;"><span style="width:28px; height:28px; border-radius:99px; background:#0B6E4D; display:grid; place-items:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="m5 12 5 5L20 7"></path></svg></span><span style="flex:1 1 200px; font:600 13px/1.3 'Be Vietnam Pro'; color:#0B6E4D;">Yêu cầu rút {{ amountText }}₫ đã được tạo — dự kiến về Vietcombank trước 18:00 hôm nay.</span></div>
@@ -303,12 +313,12 @@ window.__resources = {
 
       <!-- ===== ORDERS ===== -->
       <sc-if value="{{ is.orders }}" hint-placeholder-val="{{ false }}"><div data-shot="orders" style="border-bottom:var(--shotline);">
-        <div style="padding:var(--secpad) var(--pad); display:grid; grid-template-columns:var(--wallet); gap:24px; align-items:start;">
+        <div style="padding:var(--secpad) var(--pad); display:grid; grid-template-columns:var(--orders); gap:24px; align-items:start;">
           <div style="display:flex; flex-direction:column; gap:16px; min-width:0; order:{{ ordersMainOrder }};">
             <h1 style="margin:0; font:800 var(--h2)/1 'Bricolage Grotesque'; letter-spacing:-.02em;">Đơn hàng của bạn</h1>
             <div style="display:flex; gap:8px; flex-wrap:wrap;"><div style="flex:1 1 220px; display:flex; align-items:center; gap:10px; height:50px; padding:0 14px; border-radius:14px; background:#fff; border:2px solid #1A1712; color:#8B8378; font:400 13px/1 'Be Vietnam Pro';"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8B8378" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg><input value="{{ orderQ }}" onInput="{{ onOrderQ }}" placeholder="Nhập mã đơn hoặc tên sản phẩm…" style="flex:1; border:none; outline:none; background:transparent; min-width:0; font:inherit; color:#1A1712;" /></div><span style="height:50px; padding:0 16px; border-radius:14px; background:#FFF3EC; display:flex; align-items:center; gap:6px; font:600 13px/1 'Be Vietnam Pro';">Tất cả sàn ▾</span><span style="height:50px; padding:0 16px; border-radius:14px; background:#FFF3EC; display:flex; align-items:center; gap:6px; font:600 13px/1 'Be Vietnam Pro';">30 ngày ▾</span></div>
             <div style="display:grid; grid-template-columns:var(--cols4); gap:10px;">
-              <sc-for list="{{ orderTabs }}" as="t" hint-placeholder-count="4"><div style="padding:14px; border-radius:16px; background:{{ t.bg }}; display:flex; flex-direction:column; gap:4px;"><span style="font:500 11px/1 'Be Vietnam Pro'; color:{{ t.sub }};">{{ t.label }}</span><div style="display:flex; align-items:baseline; justify-content:space-between; gap:6px;"><span style="font:800 24px/1 'Bricolage Grotesque'; color:{{ t.fg }};">{{ t.count }}</span><span style="font:600 12px/1 'Be Vietnam Pro'; color:{{ t.fg }};">{{ t.sum }}</span></div></div></sc-for>
+              <sc-for list="{{ orderTabs }}" as="t" hint-placeholder-count="4"><div style="padding:14px; border-radius:16px; background:{{ t.bg }}; display:flex; flex-direction:column; gap:4px;"><span style="font:500 11px/1 'Be Vietnam Pro'; color:{{ t.sub }};">{{ t.label }}</span><div style="display:flex; align-items:baseline; justify-content:space-between; gap:6px; flex-wrap:wrap;"><span style="font:800 24px/1 'Bricolage Grotesque'; color:{{ t.fg }}; white-space:nowrap;">{{ t.count }}</span><span style="font:600 12px/1 'Be Vietnam Pro'; color:{{ t.fg }}; white-space:nowrap;">{{ t.sum }}</span></div></div></sc-for>
             </div>
             <div style="border-radius:20px; background:#fff; border:1px solid #F0E6DC; overflow:hidden;">
               <sc-for list="{{ orders }}" as="o" hint-placeholder-count="6">
@@ -332,7 +342,7 @@ window.__resources = {
 
       <!-- ===== ORDER DETAIL ===== -->
       <sc-if value="{{ is.orderDetail }}" hint-placeholder-val="{{ false }}"><div data-shot="orderDetail" style="border-bottom:var(--shotline);">
-        <div style="max-width:900px; margin:0 auto; padding:var(--secpad) var(--pad); display:flex; flex-direction:column; gap:18px;">
+        <div style="max-width:var(--wrapWide); margin:0 auto; padding:var(--secpad) var(--pad); display:flex; flex-direction:column; gap:18px;">
           <div style="display:flex; gap:8px; font:500 13px/1 'Be Vietnam Pro'; color:#8B8378;"><span onClick="{{ go.orders }}" style="cursor:pointer;">Đơn hàng</span>›<span style="color:#1A1712;">{{ selOrder.code }}</span></div>
           <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;"><h1 style="margin:0; font:800 var(--h2)/1 'Bricolage Grotesque'; letter-spacing:-.02em;">Đơn {{ selOrder.code }}</h1><span style="padding:8px 12px; border-radius:99px; background:{{ selOrder.bg }}; color:{{ selOrder.fg }}; font:700 13px/1 'Be Vietnam Pro';">{{ selOrder.status }}</span></div>
           <div style="padding:20px; border-radius:20px; background:#fff; border:1px solid #F0E6DC; display:grid; grid-template-columns:var(--cols4); gap:12px;">
@@ -369,7 +379,7 @@ window.__resources = {
 
       <!-- ===== TIP DETAIL ===== -->
       <sc-if value="{{ is.tipDetail }}" hint-placeholder-val="{{ false }}"><div data-shot="tipDetail" style="border-bottom:var(--shotline);">
-        <div style="max-width:760px; margin:0 auto; padding:var(--secpad) var(--pad); display:flex; flex-direction:column; gap:18px;">
+        <div style="max-width:var(--wrapNarrow); margin:0 auto; padding:var(--secpad) var(--pad); display:flex; flex-direction:column; gap:18px;">
           <div style="display:flex; gap:8px; font:500 13px/1 'Be Vietnam Pro'; color:#8B8378;"><span onClick="{{ go.tips }}" style="cursor:pointer;">Mẹo săn sale</span>›<span style="color:#1A1712;">{{ selPost.tag }}</span></div>
           <h1 style="margin:0; font:800 var(--h1)/1.1 'Bricolage Grotesque'; letter-spacing:-.03em; text-wrap:balance;">{{ selPost.title }}</h1>
           <div style="display:flex; align-items:center; gap:10px; font:500 13px/1 'Be Vietnam Pro'; color:#8B8378;"><span style="width:28px; height:28px; border-radius:99px; background:#FF5A1F; color:#fff; display:grid; place-items:center; font:800 12px/1 'Bricolage Grotesque';">S</span>Đội salevề · {{ selPost.meta }}</div>
@@ -382,13 +392,13 @@ window.__resources = {
 
       <!-- ===== HOW TO / FAQ ===== -->
       <sc-if value="{{ is.howto }}" hint-placeholder-val="{{ false }}"><div data-shot="howto" style="border-bottom:var(--shotline);">
-        <div style="max-width:960px; margin:0 auto; padding:var(--secpad) var(--pad); display:flex; flex-direction:column; gap:24px;">
+        <div style="max-width:var(--wrapWide); margin:0 auto; padding:var(--secpad) var(--pad); display:flex; flex-direction:column; gap:24px;">
           <div style="display:flex; flex-direction:column; gap:10px; text-align:center; align-items:center;"><h1 style="margin:0; font:800 var(--h1)/1.05 'Bricolage Grotesque'; letter-spacing:-.03em;">Hoàn tiền hoạt động thế nào?</h1><p style="margin:0; max-width:560px; font:400 15px/1.55 'Be Vietnam Pro'; color:#6E675D;">Bạn mua qua link, sàn trả tụi mình hoa hồng, tụi mình chia lại tới 80% cho bạn. Giá vẫn y như trên sàn.</p></div>
           <div style="display:grid; grid-template-columns:var(--cols3); gap:14px;">
             <sc-for list="{{ steps }}" as="s" hint-placeholder-count="3"><div style="padding:22px; border-radius:22px; background:#FFF3EC; display:flex; flex-direction:column; gap:10px;"><span style="width:36px; height:36px; border-radius:99px; background:#FF5A1F; color:#fff; display:grid; place-items:center; font:800 14px/1 'Bricolage Grotesque';">{{ s.n }}</span><span style="font:800 17px/1.25 'Be Vietnam Pro';">{{ s.t }}</span><span style="font:400 13px/1.5 'Be Vietnam Pro'; color:#6E675D;">{{ s.d }}</span></div></sc-for>
           </div>
           <div style="display:flex; flex-direction:column; gap:10px;"><h2 style="margin:0 0 6px; font:800 var(--h2)/1 'Bricolage Grotesque'; letter-spacing:-.02em;">Câu hỏi thường gặp</h2>
-            <sc-for list="{{ faq }}" as="f" hint-placeholder-count="6"><div onClick="{{ f.toggle }}" style="padding:16px 18px; border-radius:16px; background:#fff; border:1px solid #F0E6DC; display:flex; flex-direction:column; gap:8px; cursor:pointer;"><div style="display:flex; justify-content:space-between; gap:12px; align-items:center;"><span style="font:700 15px/1.3 'Be Vietnam Pro';">{{ f.q }}</span><span style="font:700 18px/1 'Bricolage Grotesque'; color:#FF5A1F;">{{ f.sign }}</span></div><sc-if value="{{ f.open }}" hint-placeholder-val="{{ false }}"><span style="font:400 14px/1.6 'Be Vietnam Pro'; color:#4E473E;">{{ f.a }}</span></sc-if></div></sc-for>
+            <sc-for list="{{ faq }}" as="f" hint-placeholder-count="6"><div onClick="{{ f.toggle }}" style="padding:16px 18px; border-radius:16px; background:#fff; border:1px solid #F0E6DC; display:flex; flex-direction:column; gap:8px; cursor:pointer;"><div style="display:flex; justify-content:space-between; gap:12px; align-items:center;"><span style="font:700 15px/1.3 'Be Vietnam Pro';">{{ f.q }}</span><span style="font:700 18px/1 'Bricolage Grotesque'; color:#FF5A1F; flex-shrink:0;">{{ f.sign }}</span></div><sc-if value="{{ f.open }}" hint-placeholder-val="{{ false }}"><span style="font:400 14px/1.6 'Be Vietnam Pro'; color:#4E473E;">{{ f.a }}</span></sc-if></div></sc-for>
           </div>
           <div style="padding:24px; border-radius:var(--r); background:#1A1712; color:#fff; display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;"><span style="font:800 20px/1.3 'Bricolage Grotesque';">Thử ngay với một link Shopee bất kỳ</span><span onClick="{{ go.check }}" style="padding:14px 20px; border-radius:99px; background:#FF5A1F; font:800 14px/1 'Be Vietnam Pro'; cursor:pointer;">Dán link kiểm tra</span></div>
         </div>
@@ -396,7 +406,7 @@ window.__resources = {
 
       <!-- ===== REFERRAL ===== -->
       <sc-if value="{{ is.referral }}" hint-placeholder-val="{{ false }}"><div data-shot="referral" style="border-bottom:var(--shotline);">
-        <div style="max-width:960px; margin:0 auto; padding:var(--secpad) var(--pad); display:flex; flex-direction:column; gap:20px;">
+        <div style="max-width:var(--wrapWide); margin:0 auto; padding:var(--secpad) var(--pad); display:flex; flex-direction:column; gap:20px;">
           <div style="padding:var(--secpad); border-radius:var(--r); background:linear-gradient(115deg,#FF5A1F,#FF8A5C); color:#fff; display:grid; grid-template-columns:var(--cols2); gap:24px; align-items:center;">
             <div style="display:flex; flex-direction:column; gap:12px;"><h1 style="margin:0; font:800 var(--h1)/1.05 'Bricolage Grotesque'; letter-spacing:-.03em;">Mời bạn, nhận 20.000₫ mỗi người</h1><p style="margin:0; font:500 15px/1.5 'Be Vietnam Pro'; color:rgba(255,255,255,.92);">Bạn của bạn nhận thêm 10.000₫ ở đơn đầu. Thưởng về ví sau khi đơn đầu của họ được duyệt.</p></div>
             <div style="padding:20px; border-radius:20px; background:#fff; color:#1A1712; display:flex; flex-direction:column; gap:12px;"><span style="font:600 11px/1 'Be Vietnam Pro'; color:#8B8378; letter-spacing:.06em; text-transform:uppercase;">Mã giới thiệu của bạn</span><div style="display:flex; align-items:center; justify-content:space-between; gap:10px; height:54px; padding:0 16px; border-radius:14px; border:2px dashed #FF5A1F;"><span style="font:800 24px/1 'Bricolage Grotesque'; letter-spacing:.08em;">SALEVE-AN92</span><span onClick="{{ act.copyCode }}" style="font:800 12px/1 'Be Vietnam Pro'; color:#FF5A1F; cursor:pointer;">Sao chép</span></div><div style="display:flex; gap:8px;"><span onClick="{{ act.share }}" style="flex:1; height:44px; border-radius:12px; background:#1A1712; color:#fff; font:700 13px/1 'Be Vietnam Pro'; display:grid; place-items:center; cursor:pointer;">Chia sẻ Zalo</span><span onClick="{{ act.copyCode }}" style="flex:1; height:44px; border-radius:12px; background:#FFE8DE; color:#B93A0F; font:700 13px/1 'Be Vietnam Pro'; display:grid; place-items:center; cursor:pointer;">Chia sẻ link</span></div></div>
@@ -412,7 +422,7 @@ window.__resources = {
 
       <!-- ===== NOTIFICATIONS ===== -->
       <sc-if value="{{ is.notifications }}" hint-placeholder-val="{{ false }}"><div data-shot="notifications" style="border-bottom:var(--shotline);">
-        <div style="max-width:760px; margin:0 auto; padding:var(--secpad) var(--pad); display:flex; flex-direction:column; gap:16px;">
+        <div style="max-width:var(--wrapNarrow); margin:0 auto; padding:var(--secpad) var(--pad); display:flex; flex-direction:column; gap:16px;">
           <div style="display:flex; align-items:center; justify-content:space-between; gap:12px;"><h1 style="margin:0; font:800 var(--h2)/1 'Bricolage Grotesque'; letter-spacing:-.02em;">Thông báo</h1><span onClick="{{ act.readAll }}" style="font:600 13px/1 'Be Vietnam Pro'; color:#FF5A1F; cursor:pointer;">Đánh dấu đã đọc</span></div>
           <div style="display:flex; gap:6px; flex-wrap:wrap;"><span style="padding:9px 12px; border-radius:99px; background:#1A1712; color:#fff; font:600 12px/1 'Be Vietnam Pro';">Tất cả</span><span style="padding:9px 12px; border-radius:99px; background:#FFF3EC; font:500 12px/1 'Be Vietnam Pro';">Đơn hàng</span><span style="padding:9px 12px; border-radius:99px; background:#FFF3EC; font:500 12px/1 'Be Vietnam Pro';">Khuyến mãi</span><span style="padding:9px 12px; border-radius:99px; background:#FFF3EC; font:500 12px/1 'Be Vietnam Pro';">Ví</span></div>
           <div style="border-radius:20px; background:#fff; border:1px solid #F0E6DC; overflow:hidden;">
@@ -423,7 +433,7 @@ window.__resources = {
 
       <!-- ===== ACCOUNT ===== -->
       <sc-if value="{{ is.account }}" hint-placeholder-val="{{ false }}"><div data-shot="account" style="border-bottom:var(--shotline);">
-        <div style="max-width:960px; margin:0 auto; padding:var(--secpad) var(--pad); display:flex; flex-direction:column; gap:18px;">
+        <div style="max-width:var(--wrapWide); margin:0 auto; padding:var(--secpad) var(--pad); display:flex; flex-direction:column; gap:18px;">
           <div style="padding:22px; border-radius:var(--r); background:#1A1712; color:#fff; display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
             <span style="width:64px; height:64px; border-radius:99px; background:#FF5A1F; display:grid; place-items:center; font:800 26px/1 'Bricolage Grotesque';">A</span>
             <div style="flex:1 1 200px; display:flex; flex-direction:column; gap:6px;"><span style="font:800 22px/1 'Bricolage Grotesque';">Nguyễn Văn An</span><span style="font:400 13px/1 'Be Vietnam Pro'; color:#9C9488;">0912 *** 482 · thành viên từ 03/2026</span></div>
@@ -440,7 +450,7 @@ window.__resources = {
       <!-- ===== LOGIN ===== -->
       <!-- ===== 17. TÀI KHOẢN NGÂN HÀNG ===== -->
       <sc-if value="{{ is.bank }}" hint-placeholder-val="{{ false }}"><div data-shot="bank" style="border-bottom:var(--shotline);">
-        <div style="max-width:760px; margin:0 auto; padding:var(--secpad) var(--pad); display:flex; flex-direction:column; gap:18px;">
+        <div style="max-width:var(--wrapNarrow); margin:0 auto; padding:var(--secpad) var(--pad); display:flex; flex-direction:column; gap:18px;">
           <div style="display:flex; gap:8px; font:500 13px/1 'Be Vietnam Pro'; color:#8B8378; flex-wrap:wrap;"><span onClick="{{ go.account }}" style="cursor:pointer;">Tài khoản</span>›<span style="color:#1A1712;">Tài khoản ngân hàng</span></div>
           <h1 style="margin:0; font:800 var(--h2)/1 'Bricolage Grotesque'; letter-spacing:-.02em;">Tài khoản ngân hàng</h1>
           <span style="font:400 14px/1.5 'Be Vietnam Pro'; color:#6E675D;">Tiền hoàn chỉ được chuyển về tài khoản mang <b style="color:#1A1712;">đúng tên bạn</b>. Chúng tôi không hỗ trợ rút hộ sang tài khoản người khác.</span>
@@ -480,7 +490,7 @@ window.__resources = {
 
       <!-- ===== 18. KHIẾU NẠI ĐƠN ===== -->
       <sc-if value="{{ is.complaint }}" hint-placeholder-val="{{ false }}"><div data-shot="complaint" style="border-bottom:var(--shotline);">
-        <div style="max-width:760px; margin:0 auto; padding:var(--secpad) var(--pad); display:flex; flex-direction:column; gap:18px;">
+        <div style="max-width:var(--wrapNarrow); margin:0 auto; padding:var(--secpad) var(--pad); display:flex; flex-direction:column; gap:18px;">
           <div style="display:flex; gap:8px; font:500 13px/1 'Be Vietnam Pro'; color:#8B8378; flex-wrap:wrap;"><span onClick="{{ go.orders }}" style="cursor:pointer;">Đơn hàng</span>›<span onClick="{{ go.orderDetail }}" style="cursor:pointer;">2409A7K1</span>›<span style="color:#1A1712;">Khiếu nại</span></div>
           <h1 style="margin:0; font:800 var(--h2)/1 'Bricolage Grotesque'; letter-spacing:-.02em;">Khiếu nại đơn 2409A7K1</h1>
 
@@ -519,7 +529,7 @@ window.__resources = {
 
       <!-- ===== 19. HỒ SƠ CÁ NHÂN ===== -->
       <sc-if value="{{ is.profile }}" hint-placeholder-val="{{ false }}"><div data-shot="profile" style="border-bottom:var(--shotline);">
-        <div style="max-width:760px; margin:0 auto; padding:var(--secpad) var(--pad); display:flex; flex-direction:column; gap:18px;">
+        <div style="max-width:var(--wrapNarrow); margin:0 auto; padding:var(--secpad) var(--pad); display:flex; flex-direction:column; gap:18px;">
           <div style="display:flex; gap:8px; font:500 13px/1 'Be Vietnam Pro'; color:#8B8378; flex-wrap:wrap;"><span onClick="{{ go.account }}" style="cursor:pointer;">Tài khoản</span>›<span style="color:#1A1712;">Hồ sơ cá nhân</span></div>
           <h1 style="margin:0; font:800 var(--h2)/1 'Bricolage Grotesque'; letter-spacing:-.02em;">Hồ sơ cá nhân</h1>
 
@@ -554,7 +564,7 @@ window.__resources = {
 
       <!-- ===== 20. CÀI ĐẶT THÔNG BÁO ===== -->
       <sc-if value="{{ is.notifSettings }}" hint-placeholder-val="{{ false }}"><div data-shot="notifSettings" style="border-bottom:var(--shotline);">
-        <div style="max-width:760px; margin:0 auto; padding:var(--secpad) var(--pad); display:flex; flex-direction:column; gap:18px;">
+        <div style="max-width:var(--wrapNarrow); margin:0 auto; padding:var(--secpad) var(--pad); display:flex; flex-direction:column; gap:18px;">
           <div style="display:flex; gap:8px; font:500 13px/1 'Be Vietnam Pro'; color:#8B8378; flex-wrap:wrap;"><span onClick="{{ go.account }}" style="cursor:pointer;">Tài khoản</span>›<span style="color:#1A1712;">Cài đặt thông báo</span></div>
           <h1 style="margin:0; font:800 var(--h2)/1 'Bricolage Grotesque'; letter-spacing:-.02em;">Cài đặt thông báo</h1>
           <span style="font:400 14px/1.5 'Be Vietnam Pro'; color:#6E675D;">Thông báo về tiền hoàn và lệnh rút luôn nên bật để bạn không bỏ lỡ.</span>
@@ -595,7 +605,7 @@ window.__resources = {
 
       <sc-if value="{{ is.login }}" hint-placeholder-val="{{ false }}"><div data-shot="login" style="border-bottom:var(--shotline);">
         <div style="min-height:640px; padding:var(--secpad) var(--pad); display:grid; place-items:center; background:#FFF3EC;">
-          <div style="width:100%; max-width:440px; padding:28px; border-radius:var(--r); background:#fff; box-shadow:0 20px 60px rgba(255,90,31,.12); display:flex; flex-direction:column; gap:18px;">
+          <div style="width:100%; max-width:var(--wrapCard); padding:28px; border-radius:var(--r); background:#fff; box-shadow:0 20px 60px rgba(255,90,31,.12); display:flex; flex-direction:column; gap:18px;">
             <div style="display:flex; flex-direction:column; align-items:center; gap:10px; text-align:center;"><svg width="64" height="64" viewBox="0 0 48 48"><circle cx="24" cy="26" r="21" fill="#FF5A1F"></circle><circle cx="18" cy="23" r="2.6" fill="#1A1712"></circle><circle cx="30" cy="23" r="2.6" fill="#1A1712"></circle><path d="M18 30q6 6 12 0" stroke="#1A1712" stroke-width="2.8" fill="none" stroke-linecap="round"></path><circle cx="13.5" cy="28" r="2.2" fill="#FFCDB8"></circle><circle cx="34.5" cy="28" r="2.2" fill="#FFCDB8"></circle></svg><h1 style="margin:0; font:800 26px/1.1 'Bricolage Grotesque'; letter-spacing:-.02em;">{{ loginTitle }}</h1><span style="font:400 13px/1.5 'Be Vietnam Pro'; color:#6E675D;">{{ loginSub }}</span></div>
             <sc-if value="{{ otpStep }}" hint-placeholder-val="{{ false }}">
               <div style="display:flex; gap:8px; justify-content:center;"><sc-for list="{{ otpCells }}" as="o" hint-placeholder-count="6"><input value="{{ o.v }}" data-i="{{ o.i }}" data-otp="{{ o.i }}" onInput="{{ onOtpInput }}" onKeyDown="{{ onOtpKey }}" maxLength="1" inputMode="numeric" style="width:48px; height:56px; border-radius:12px; border:2px solid {{ o.bd }}; text-align:center; outline:none; background:#fff; font:800 22px/1 'Bricolage Grotesque'; color:#1A1712;" /></sc-for></div>
@@ -630,25 +640,90 @@ window.__resources = {
 <script type="text/x-dc" data-dc-script data-props="{&quot;showSale&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Nội dung&quot;}}">
 class Component extends DCLogic {
   state = { page: 'home', viewport: 'desktop', loggedIn: true, selDeal: 0, selOrder: 0, selPost: 0, loginStep: 'phone', loginMode: 'login', faqOpen: 0, shot: false, toast: '', pasteUrl: '', headerQ: '', orderQ: '', checkUrl: 'https://shopee.vn/May-hut-bui-cam-tay-i.2931.1902838', phone: '', refCode: '', otpDigits: ['','','','','',''], bankSel: 'Vietcombank', bankNo: '', bankName: '', cpReason: 0, cpNote: '', cpFiles: 2, cpSent: false, pfName: 'Nguyễn Văn An', pfEmail: 'an.nguyen@gmail.com', pfDelArm: false, notifPrefs: [true,true,true,true,true,false], searchTab: 0, saved: {}, remind: false, more: false, sort: 0, san: -1, types: [true,false,false,false], amount: 500000, complained: false, readAll: false };
+  // NGUỒN DUY NHẤT của danh sách trang. Thêm màn mới chỉ cần thêm 1 dòng ở đây.
+  PAGEDEFS = [
+    ['home','01 Trang chủ','/'],['check','02 Kiểm tra hoàn tiền','/kiem-tra'],['deals','03 Deal hoàn cao','/deal'],['dealDetail','04 Chi tiết deal','/deal/may-hut-bui'],['vouchers','05 Voucher','/voucher'],
+    ['wallet','06 Ví','/vi'],['withdrawals','07 Lịch sử rút tiền','/vi/rut-tien'],['orders','08 Đơn hàng','/don-hang'],['orderDetail','09 Chi tiết đơn','/don-hang/2409A7K1'],['tips','10 Mẹo săn sale','/meo'],
+    ['tipDetail','11 Bài viết','/meo/lich-san-voucher-9-9'],['howto','12 Cách hoàn tiền / FAQ','/cach-hoan-tien'],['referral','13 Mời bạn bè','/moi-ban'],['notifications','14 Thông báo','/thong-bao'],['account','15 Tài khoản','/tai-khoan'],['login','16 Đăng nhập / Đăng ký','/dang-nhap'],
+    ['bank','17 Tài khoản ngân hàng','/tai-khoan/ngan-hang'],['complaint','18 Khiếu nại đơn','/don-hang/2409A7K1/khieu-nai'],['profile','19 Hồ sơ cá nhân','/tai-khoan/ho-so'],['notifSettings','20 Cài đặt thông báo','/tai-khoan/cai-dat-thong-bao'],['search','21 Kết quả tìm kiếm','/tim-kiem'],
+  ];
+  // Dùng hash chứ không dùng pathname: GitHub Pages là host tĩnh, không rewrite được
+  // nên mở thẳng /vi sẽ ra 404. Với #/vi thì mọi host tĩnh đều chạy.
+  hashOf(page, loginStep) {
+    if (page === 'login' && loginStep === 'otp') return '#/dang-nhap/xac-thuc';
+    const d = this.PAGEDEFS.find(x => x[0] === page);
+    return '#' + (d ? d[2] : '/');
+  }
+  stateFromHash() {
+    const raw = (window.location.hash || '').replace(/^#/, '') || '/';
+    if (raw === '/dang-nhap/xac-thuc') return { page: 'login', loginStep: 'otp' };
+    const d = this.PAGEDEFS.find(x => x[2] === raw);
+    return d ? { page: d[0], loginStep: 'phone' } : null;
+  }
+  // Ghi lịch sử khi màn đổi. Chỉ gọi từ set()/sendOtp/backPhone, không gọi khi đổi
+  // viewport hay bộ lọc — những thứ đó là công cụ xem, không phải điều hướng.
+  pushHistory(page, loginStep) {
+    const nh = this.hashOf(page, loginStep);
+    if (window.location.hash !== nh) {
+      try { window.history.pushState({ page, loginStep }, '', nh); } catch (e) {}
+    }
+  }
+
   componentDidMount() {
-    try { const s = JSON.parse(localStorage.getItem('saleve-proto') || '{}'); if (s.page) this.setState({ page: s.page, viewport: s.viewport || 'desktop', loggedIn: s.loggedIn ?? true }); } catch (e) {}
+    // Hash trong URL được ưu tiên hơn localStorage: người ta mở link chia sẻ thì
+    // phải ra đúng màn trong link, không phải màn lần trước họ xem.
+    const fromHash = this.stateFromHash();
+    let restored = null;
+    try { restored = JSON.parse(localStorage.getItem('saleve-proto') || '{}'); } catch (e) {}
+    const init = {};
+    if (restored && restored.viewport) init.viewport = restored.viewport;
+    if (restored && typeof restored.loggedIn === 'boolean') init.loggedIn = restored.loggedIn;
+    const hasHash = !!(window.location.hash || '').replace(/^#\/?$/, '');
+    if (fromHash) { init.page = fromHash.page; init.loginStep = fromHash.loginStep; }
+    else if (hasHash) { init.page = 'home'; }   // hash lạ: người dùng mở link hỏng -> về trang chủ,
+                                                 // không nhảy về màn cũ trong localStorage (gây bất ngờ)
+    else if (restored && restored.page) { init.page = restored.page; }
+    if (Object.keys(init).length) this.setState(init);
+    // Ghi đè entry hiện tại để lần back đầu tiên không nhảy ra ngoài prototype.
+    const startPage = init.page || this.state.page;
+    const startStep = init.loginStep || this.state.loginStep;
+    try { window.history.replaceState({ page: startPage, loginStep: startStep }, '', this.hashOf(startPage, startStep)); } catch (e) {}
+    this._onPop = () => {
+      const st = this.stateFromHash();
+      if (st) this.setState(st, () => window.scrollTo({ top: 0 }));
+      else if ((window.location.hash || '').replace(/^#\/?$/, '')) {
+        // hash lạ (người dùng gõ tay / link hỏng) -> đưa về trang chủ
+        this.setState({ page: 'home' }, () => {
+          try { window.history.replaceState({ page: 'home' }, '', '#/'); } catch (e) {}
+          window.scrollTo({ top: 0 });
+        });
+      }
+    };
+    // popstate: nút back/forward. hashchange: người dùng tự sửa hash trên thanh
+    // địa chỉ hoặc bấm link neo — trường hợp này KHÔNG phát popstate.
+    window.addEventListener('popstate', this._onPop);
+    window.addEventListener('hashchange', this._onPop);
     this._onResize = () => this.setState({ avail: window.innerWidth - 40 });
     this._onResize(); window.addEventListener('resize', this._onResize);
   }
-  componentWillUnmount() { window.removeEventListener('resize', this._onResize); }
+  componentWillUnmount() { window.removeEventListener('resize', this._onResize); window.removeEventListener('popstate', this._onPop); window.removeEventListener('hashchange', this._onPop); }
   toast(msg) { clearTimeout(this._t); this.setState({ toast: msg }); this._t = setTimeout(() => this.setState({ toast: '' }), 2200); }
-  set(p) { this.setState(p, () => { try { localStorage.setItem('saleve-proto', JSON.stringify({ page: this.state.page, viewport: this.state.viewport, loggedIn: this.state.loggedIn })); } catch (e) {} window.scrollTo({ top: 0 }); }); }
+  set(p) {
+    // set() còn được dùng cho viewport / trạng thái đăng nhập, nên chỉ ghi lịch sử
+    // khi 'page' thực sự đổi — tránh nhồi rác vào nút back.
+    const changed = p && p.page && p.page !== this.state.page;
+    this.setState(p, () => {
+      try { localStorage.setItem('saleve-proto', JSON.stringify({ page: this.state.page, viewport: this.state.viewport, loggedIn: this.state.loggedIn })); } catch (e) {}
+      if (changed) this.pushHistory(this.state.page, this.state.loginStep);
+      window.scrollTo({ top: 0 });
+    });
+  }
   renderVals() {
     const s = this.state, p = this.props;
     const m = s.viewport === 'mobile';
     const nav = (page, extra = {}) => () => { if (!s.loggedIn && ['wallet','orders','orderDetail','withdrawals','account','notifications','referral','bank','complaint','profile','notifSettings'].includes(page)) return this.set({ page: 'login' }); this.set({ page, ...extra }); };
     const go = {}; ['home','check','deals','dealDetail','vouchers','wallet','withdrawals','orders','orderDetail','tips','tipDetail','howto','referral','notifications','account','login','bank','complaint','profile','notifSettings','search'].forEach(k => go[k] = nav(k));
-    const pages = [
-      ['home','01 Trang chủ','/'],['check','02 Kiểm tra hoàn tiền','/kiem-tra'],['deals','03 Deal hoàn cao','/deal'],['dealDetail','04 Chi tiết deal','/deal/may-hut-bui'],['vouchers','05 Voucher','/voucher'],
-      ['wallet','06 Ví','/vi'],['withdrawals','07 Lịch sử rút tiền','/vi/rut-tien'],['orders','08 Đơn hàng','/don-hang'],['orderDetail','09 Chi tiết đơn','/don-hang/2409A7K1'],['tips','10 Mẹo săn sale','/meo'],
-      ['tipDetail','11 Bài viết','/meo/lich-san-voucher-9-9'],['howto','12 Cách hoàn tiền / FAQ','/cach-hoan-tien'],['referral','13 Mời bạn bè','/moi-ban'],['notifications','14 Thông báo','/thong-bao'],['account','15 Tài khoản','/tai-khoan'],['login','16 Đăng nhập / Đăng ký','/dang-nhap'],
-      ['bank','17 Tài khoản ngân hàng','/tai-khoan/ngan-hang'],['complaint','18 Khiếu nại đơn','/don-hang/2409A7K1/khieu-nai'],['profile','19 Hồ sơ cá nhân','/tai-khoan/ho-so'],['notifSettings','20 Cài đặt thông báo','/tai-khoan/cai-dat-thong-bao'],['search','21 Kết quả tìm kiếm','/tim-kiem'],
-    ].map(([id, label, route]) => ({ id, label, route }));
+    const pages = this.PAGEDEFS.map(([id, label, route]) => ({ id, label, route }));
     const cur = pages.find(x => x.id === s.page) || pages[0];
     const is = {}; pages.forEach(x => is[x.id] = s.shot || x.id === s.page);
     const deals = [
@@ -829,7 +904,7 @@ class Component extends DCLogic {
       frameW: m ? '390px' : '1440px', zoom: Math.min(1, (s.avail || 1440) / (m ? 390 : 1440)), pad: m ? '16px' : '48px', secpad: m ? '20px' : '40px', radius: m ? '22px' : '32px',
       cols5: m ? 'repeat(2, minmax(0,1fr))' : 'repeat(5, minmax(0,1fr))', cols4: m ? 'repeat(2, minmax(0,1fr))' : 'repeat(4, minmax(0,1fr))',
       cols3: m ? '1fr' : 'repeat(3, minmax(0,1fr))', cols2: m ? '1fr' : 'repeat(2, minmax(0,1fr))',
-      heroCols: m ? '1fr' : 'minmax(0,1fr) 300px', sideCols: m ? '1fr' : '240px minmax(0,1fr)', walletCols: m ? '1fr' : '400px minmax(0,1fr)',
+      heroCols: m ? '1fr' : 'minmax(0,1fr) 300px', sideCols: m ? '1fr' : '240px minmax(0,1fr)', walletCols: m ? '1fr' : '400px minmax(0,1fr)', ordersCols: m ? '1fr' : 'minmax(0,1fr) 400px', wrapWide: m ? 'none' : '960px', wrapNarrow: m ? 'none' : '760px', wrapCard: m ? 'none' : '440px',
       h1: m ? '32px' : '54px', h2: m ? '22px' : '30px', desk: m ? 'none' : 'flex', mob: m ? 'flex' : 'none', footpad: m ? '0px' : '0px', ordersMainOrder: 0,
       navItems, tabs, homeDeals: deals.slice(0, 5), deals, sel, related, vouchers, homeVouchers: vouchers.slice(0, 3), posts, homePosts: posts.slice(0, 3), featured: posts[0], selPost, body,
       steps, rules, noRules, sanFilters, dealTypes, cats, slots, stages, orders, recentOrders: orders.slice(0, 3), selOrder, orderStages, orderTabs, withdrawals, faq, refStats, invited, notis, accountMenu,
@@ -838,7 +913,7 @@ class Component extends DCLogic {
       loginSub: s.loginStep === 'otp' ? 'Mã 6 số đã gửi tới 0912 *** 482' : (isRegister ? 'Đăng ký 10 giây, nhận ngay 10.000₫ cho đơn đầu.' : 'Đăng nhập để xem ví và đơn hàng của bạn.'),
       tabLoginBg: isRegister ? 'transparent' : '#1A1712', tabLoginFg: isRegister ? '#6E675D' : '#fff', tabRegBg: isRegister ? '#1A1712' : 'transparent', tabRegFg: isRegister ? '#fff' : '#6E675D',
       setModeLogin: () => this.setState({ loginMode: 'login' }), setModeRegister: () => this.setState({ loginMode: 'register' }),
-      sendOtp: () => this.setState({ loginStep: 'otp' }), backPhone: () => this.setState({ loginStep: 'phone' }),
+      sendOtp: () => this.setState({ loginStep: 'otp' }, () => this.pushHistory('login', 'otp')), backPhone: () => this.setState({ loginStep: 'phone' }, () => this.pushHistory('login', 'phone')),
       finishLogin: () => this.set({ loggedIn: true, page: 'account', loginStep: 'phone' }),
     };
   }
